@@ -3,208 +3,175 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>House of Bliss | Private Selection</title>
+    <title>House of Bliss - Smartshop & Health</title>
     <style>
         :root {
-            --accent: #c5a059;
-            --dark: #000000;
-            --light: #f5f5f7;
-            --border: #e2e2e7;
-            --red: #ff3b30;
-            --green: #8cb83e;
+            --primary-color: #2e7d32;
+            --secondary-color: #fbc02d;
+            --dark-bg: #1a1a1a;
+            --light-text: #ffffff;
         }
 
-        * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "Inter", sans-serif; margin: 0; background: #fff; color: var(--dark); overflow-x: hidden; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; background: #f9f9f9; }
 
-        /* AVERTISSEMENT ÂGE */
-        #age-verify {
-            position: fixed; inset: 0; background: #000; z-index: 9999;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            color: #fff; text-align: center; padding: 20px;
+        /* --- Age Gate --- */
+        #age-gate {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95); color: white; display: flex;
+            flex-direction: column; justify-content: center; align-items: center;
+            z-index: 10000; text-align: center; padding: 20px;
         }
-        #age-verify h2 { font-size: 14px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 30px; }
-        .age-btn { 
-            background: #fff; color: #000; border: none; padding: 15px 40px; 
-            font-size: 12px; font-weight: 800; text-transform: uppercase; cursor: pointer; letter-spacing: 2px;
-        }
+        .btn-age { padding: 15px 30px; margin: 10px; border: none; cursor: pointer; font-weight: bold; border-radius: 5px; }
+        .btn-yes { background: var(--primary-color); color: white; }
 
-        /* HEADER */
-        header { 
-            position: sticky; top: 0; z-index: 1000;
-            background: rgba(255, 255, 255, 0.95); border-bottom: 1px solid var(--border);
-            padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;
-        }
-        .logo { font-size: 14px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; text-decoration: none; color: #000; }
+        /* --- Header & Navigation --- */
+        .free-shipping { background: var(--secondary-color); text-align: center; padding: 8px; font-weight: bold; font-size: 0.9em; }
         
-        .lang-select { 
-            display: flex; align-items: center; gap: 8px; border: 1px solid var(--border); 
-            padding: 5px 10px; font-size: 11px; font-weight: 700; cursor: pointer;
-        }
-
-        /* MENU CATÉGORIES (6 CATEGORIES) */
-        .category-menu { 
-            display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            gap: 1px; 
-            background: var(--border); 
-            border-bottom: 1px solid var(--border); 
-        }
-        .cat-item { 
-            background: #fff; padding: 25px 10px; text-align: center; cursor: pointer; 
-            transition: background 0.3s;
-        }
-        .cat-item:hover { background: var(--light); }
-        .cat-item h3 { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin: 0; }
-        .cat-item span { font-size: 8px; color: var(--green); font-weight: 700; margin-top: 4px; display: block; }
-
-        /* SECTIONS PRODUITS */
-        .product-section { display: none; padding: 20px 15px 100px; background: #f9f9f9; min-height: 500px; }
-        .product-section.active { display: block; }
-        .section-header { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; border-left: 3px solid #000; padding-left: 10px; }
-
-        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-        .card { background: #fff; border: 1px solid var(--border); padding: 12px; position: relative; text-align: center; }
-        .badge { position: absolute; top: 5px; right: 5px; background: var(--red); color: #fff; font-size: 9px; font-weight: 900; padding: 3px 6px; z-index: 10; }
+        header { background: var(--dark-bg); color: white; padding: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
         
-        /* CADRE PHOTO AVEC IMAGE DE SECOURS */
-        .img-container { width: 100%; height: 120px; background: #f0f0f0; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-        .img-container img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        .logo { font-size: 1.8em; font-weight: bold; color: var(--secondary-color); }
         
-        .card-title { font-size: 10px; font-weight: 700; text-transform: uppercase; height: 30px; margin-bottom: 8px; line-height: 1.2; }
-        .price { font-size: 13px; font-weight: 700; color: var(--red); }
-        .old-price { color: #999; text-decoration: line-through; font-size: 10px; margin-right: 4px; }
+        .lang-selector select { background: #333; color: white; border: 1px solid #555; padding: 5px; border-radius: 3px; }
 
-        /* BOUTON TELEGRAM FIXE */
-        .tg-sticky {
-            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-            background: #000; color: #fff; padding: 15px 25px; border-radius: 4px;
-            text-decoration: none; font-size: 11px; font-weight: 800; text-transform: uppercase;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3); z-index: 2000; display: flex; align-items: center; gap: 10px; letter-spacing: 1px;
+        nav { background: #333; padding: 10px; text-align: center; position: sticky; top: 0; z-index: 100; }
+        nav a { color: white; text-decoration: none; margin: 0 15px; font-size: 0.9em; text-transform: uppercase; }
+
+        /* --- Grid Produits --- */
+        .container { max-width: 1200px; margin: 20px auto; padding: 0 20px; }
+        .category-title { border-bottom: 2px solid var(--primary-color); padding-bottom: 10px; margin-top: 40px; color: #333; }
+        
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; margin-top: 20px; }
+        
+        .product-card { background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: 0.3s; text-align: center; padding-bottom: 20px; }
+        .product-card:hover { transform: translateY(-5px); }
+        .product-card img { width: 100%; height: 200px; object-fit: cover; background: #eee; }
+        .product-card h3 { font-size: 1.1em; margin: 15px 0 5px; }
+        .product-card p { color: #666; font-size: 0.9em; padding: 0 10px; }
+        
+        .buy-btn { 
+            display: inline-block; background: #24A1DE; color: white; 
+            text-decoration: none; padding: 10px 20px; border-radius: 20px; 
+            margin-top: 15px; font-weight: bold; transition: 0.3s;
         }
+        .buy-btn:hover { background: #1c82b3; }
 
-        footer { padding: 40px 20px 120px; text-align: center; font-size: 9px; color: #bbb; text-transform: uppercase; letter-spacing: 1px; }
+        footer { background: var(--dark-bg); color: #888; text-align: center; padding: 40px; margin-top: 50px; }
     </style>
 </head>
 <body>
 
-    <div id="age-verify">
-        <h2>HOUSE OF BLISS<br><br>BENT U 18 JAAR OF OUDER?</h2>
-        <button class="age-btn" onclick="document.getElementById('age-verify').style.display='none'">JA, IK BEN 18+</button>
+    <div id="age-gate">
+        <h1>House of Bliss</h1>
+        <p>Bent u 18 jaar of ouder? / Avez-vous plus de 18 ans ?</p>
+        <div>
+            <button class="btn-age btn-yes" onclick="verifyAge(true)">JA / OUI</button>
+            <button class="btn-age" onclick="verifyAge(false)">NEE / NON</button>
+        </div>
+    </div>
+
+    <div class="free-shipping">
+        🚚 Gratis verzending vanaf €150 / Livraison gratuite dès 150€
     </div>
 
     <header>
-        <a href="#" class="logo">House of Bliss</a>
-        <div class="lang-select">
-            <img src="https://flagcdn.com/w20/nl.png" width="16"> NL ▾
+        <div class="logo">HOUSE OF BLISS</div>
+        <div class="lang-selector">
+            <select onchange="alert('Langue changée (Fonction à lier à un traducteur)')">
+                <option value="nl">Nederlands 🇳🇱</option>
+                <option value="fr">Français 🇫🇷</option>
+                <option value="en">English 🇬🇧</option>
+                <option value="de">Deutsch 🇩🇪</option>
+            </select>
         </div>
     </header>
 
-    <div class="category-menu">
-        <div class="cat-item" onclick="showCat('smart')"><h3>1. Smartshop</h3><span>TOP 10</span></div>
-        <div class="cat-item" onclick="showCat('seeds')"><h3>2. Seedshop</h3><span>GRAINEN</span></div>
-        <div class="cat-item" onclick="showCat('health')"><h3>3. Healthshop</h3><span>EXTRACTEN</span></div>
-        <div class="cat-item" onclick="showCat('test')"><h3>4. Dépistage</h3><span>EZ-TESTS</span></div>
-        <div class="cat-item" onclick="showCat('cbd')"><h3>5. CBD Shop</h3><span>PREMIUM</span></div>
-        <div class="cat-item" onclick="showCat('sex')"><h3>6. Aphrodisiaques</h3><span>LOVE</span></div>
-    </div>
+    <nav>
+        <a href="#smartshop">Smartshop</a>
+        <a href="#seedshop">Seedshop</a>
+        <a href="#healthshop">Health</a>
+        <a href="#test">Drugstest</a>
+        <a href="#cbd">CBD Shop</a>
+        <a href="#aphro">Aphrodisiaca</a>
+    </nav>
 
-    <div id="smart" class="product-section active">
-        <div class="section-header">Smartshop Selection</div>
-        <div class="grid">
-            <div class="card">
-                <div class="badge">-25%</div>
-                <div class="img-container"><img src="https://www.tatanka.nl/wp-content/uploads/2018/06/Atlantis-Truffles-15g.jpg" alt="Truffles"></div>
-                <div class="card-title">Atlantis Truffles (15g)</div>
-                <div class="price"><span class="old-price">20,00 €</span>15,00 €</div>
-            </div>
-            <div class="card">
-                <div class="badge">-25%</div>
-                <div class="img-container"><img src="https://www.tatanka.nl/wp-content/uploads/2018/06/Golden-Teacher-Growkit.jpg" alt="Growkit"></div>
-                <div class="card-title">Golden Teacher Growkit</div>
-                <div class="price"><span class="old-price">45,00 €</span>33,75 €</div>
+    <div class="container">
+        
+        <h2 id="smartshop" class="category-title">1. Smartshop (Truffels & Nootropics)</h2>
+        <div class="product-grid">
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1550989460-0adf9ea622e2?q=80&w=400" alt="Truffels">
+                <h3>Magische Truffels</h3>
+                <p>Atlantis, Hollandia, Mexicana.</p>
+                <a href="https://t.me/Houseofbliss_store" class="buy-btn">Kopen op Telegram</a>
             </div>
         </div>
-    </div>
 
-    <div id="seeds" class="product-section">
-        <div class="section-header">Seedshop Selection</div>
-        <div class="grid">
-            <div class="card">
-                <div class="badge">-25%</div>
-                <div class="img-container"><img src="https://www.tatanka.nl/wp-content/uploads/2018/06/Amnesia-Haze-3seeds.jpg" alt="Seeds"></div>
-                <div class="card-title">Amnesia Haze (3 psc)</div>
-                <div class="price"><span class="old-price">25,00 €</span>18,75 €</div>
+        <h2 id="seedshop" class="category-title">2. Seedshop (Cannabis Zaden)</h2>
+        <div class="product-grid">
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1603909223429-69bb7101f420?q=80&w=400" alt="Seeds">
+                <h3>Feminized Seeds</h3>
+                <p>Hoogwaardige zaden voor verzamelaars.</p>
+                <a href="https://t.me/Houseofbliss_store" class="buy-btn">Kopen op Telegram</a>
             </div>
         </div>
-    </div>
 
-    <div id="health" class="product-section">
-        <div class="section-header">Healthshop & Herbal</div>
-        <div class="grid">
-            <div class="card">
-                <div class="badge">-25%</div>
-                <div class="img-container"><img src="https://www.tatanka.nl/wp-content/uploads/2018/06/Kratopia-Red-Bali-Kratom.jpg" alt="Kratom"></div>
-                <div class="card-title">Kratom Red Bali (50g)</div>
-                <div class="price"><span class="old-price">15,00 €</span>11,25 €</div>
+        <h2 id="healthshop" class="category-title">3. Healthshop (Supplementen)</h2>
+        <div class="product-grid">
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1584017911766-d451b3d0e843?q=80&w=400" alt="Vitamines">
+                <h3>Superfoods & Vitamines</h3>
+                <p>Natuurlijke ondersteuning voor uw lichaam.</p>
+                <a href="https://t.me/Houseofbliss_store" class="buy-btn">Kopen op Telegram</a>
             </div>
         </div>
-    </div>
 
-    <div id="test" class="product-section">
-        <div class="section-header">Dépistage de drogue</div>
-        <div class="grid">
-            <div class="card">
-                <div class="badge">-25%</div>
-                <div class="img-container"><img src="https://www.tatanka.nl/wp-content/uploads/2018/06/EZ-Test-Cocaine-Purity.jpg" alt="EZ Test"></div>
-                <div class="card-title">EZ-Test Cocaine Purity</div>
-                <div class="price"><span class="old-price">8,00 €</span>6,00 €</div>
+        <h2 id="test" class="category-title">4. Drugstest (Zelftests)</h2>
+        <div class="product-grid">
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1579152276506-2d5ce1d855b6?q=80&w=400" alt="Test kit">
+                <h3>EZ Test Kits</h3>
+                <p>Test de zuiverheid van uw producten.</p>
+                <a href="https://t.me/Houseofbliss_store" class="buy-btn">Kopen op Telegram</a>
             </div>
         </div>
-    </div>
 
-    <div id="cbd" class="product-section">
-        <div class="section-header">CBD Shop</div>
-        <div class="grid">
-            <div class="card">
-                <div class="badge">-25%</div>
-                <div class="img-container"><img src="https://www.tatanka.nl/wp-content/uploads/2018/06/CBD-Oil-10.jpg" alt="CBD"></div>
-                <div class="card-title">CBD Oil 10% (10ml)</div>
-                <div class="price"><span class="old-price">40,00 €</span>30,00 €</div>
+        <h2 id="cbd" class="category-title">5. CBD Shop</h2>
+        <div class="product-grid">
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1596491184975-27ae1d3024b4?q=80&w=400" alt="CBD Oil">
+                <h3>Full Spectrum CBD Olie</h3>
+                <p>100% natuurlijk en legaal.</p>
+                <a href="https://t.me/Houseofbliss_store" class="buy-btn">Kopen op Telegram</a>
             </div>
         </div>
-    </div>
 
-    <div id="sex" class="product-section">
-        <div class="section-header">Aphrodisiaques</div>
-        <div class="grid">
-            <div class="card">
-                <div class="badge">-25%</div>
-                <div class="img-container"><img src="https://www.tatanka.nl/wp-content/uploads/2013/05/Black-Stone-Spray.jpg" alt="Spray"></div>
-                <div class="card-title">Black Stone Spray</div>
-                <div class="price"><span class="old-price">13,00 €</span>9,75 €</div>
+        <h2 id="aphro" class="category-title">6. Aphrodisiaca (Liefdeskruiden)</h2>
+        <div class="product-grid">
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1615485290382-441e4d049cb5?q=80&w=400" alt="Love">
+                <h3>Spanish Fly / Herbs</h3>
+                <p>Natuurlijke stimulansen voor passie.</p>
+                <a href="https://t.me/Houseofbliss_store" class="buy-btn">Kopen op Telegram</a>
             </div>
         </div>
+
     </div>
 
     <footer>
-        <p>HOUSE OF BLISS | AMSTERDAM<br>© 2025 - DISCREET WORLDWIDE SHIPPING</p>
+        <p>&copy; 2025 House of Bliss - All Rights Reserved</p>
+        <p>Waarschuwing: Producten alleen voor volwassenen. Gebruik verantwoord.</p>
     </footer>
 
-    <a href="https://t.me/Houseofbliss_store" class="tg-sticky">
-        <svg width="18" viewBox="0 0 24 24" fill="#fff"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .24z"/></svg>
-        BESTEL VIA TELEGRAM
-    </a>
-
     <script>
-        function showCat(id) {
-            document.querySelectorAll('.product-section').forEach(s => s.classList.remove('active'));
-            const target = document.getElementById(id);
-            if(target) {
-                target.classList.add('active');
-                window.scrollTo({ top: document.querySelector('.category-menu').offsetTop - 70, behavior: 'smooth' });
+        function verifyAge(isAdult) {
+            if(isAdult) {
+                document.getElementById('age-gate').style.display = 'none';
+            } else {
+                window.location.href = "https://www.google.com";
             }
         }
     </script>
 </body>
-</html>
+                    </html>
+                    
