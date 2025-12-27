@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>House of Bliss | Smartshop NL & EU Delivery</title>
+    <style>
+        :root {
+            --gold: #d4af37;
+            --gold-light: #f1d592;
+            --dark: #121212;
+            --dark-grey: #1e1e1e;
+            --white: #ffffff;
+            --telegram: #0088cc;
+        }
+
+        body { 
+            font-family: 'Georgia', serif; 
+            margin: 0; 
+            background-color: var(--dark); 
+            color: var(--white); 
+            line-height: 1.6;
+        }
+
+        /* --- BARRIÈRE D'ÂGE --- */
+        #age-gate {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--dark); color: white;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 10000; text-align: center; padding: 20px;
+        }
+        #age-gate h2 { font-size: 3rem; color: var(--gold); margin-bottom: 10px; }
+        .age-btn {
+            background: var(--gold); border: none; padding: 15px 40px;
+            font-size: 1.2rem; cursor: pointer; font-weight: bold; 
+            margin-top: 20px; transition: 0.3s;
+        }
+        .age-btn:hover { background: var(--gold-light); transform: scale(1.05); }
+
+        /* --- NAVIGATION & LANGUES --- */
+        .top-nav {
+            background: #000; padding: 10px 20px;
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 0.8rem; border-bottom: 1px solid #333;
+        }
+        .lang-links a { color: var(--gold); text-decoration: none; margin-left: 15px; }
+        .main-nav { text-align: center; padding: 15px; background: var(--dark-grey); }
+        .main-nav a { color: var(--white); text-decoration: none; margin: 0 20px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* --- HEADER --- */
+        header { padding: 60px 20px; text-align: center; border-bottom: 1px solid var(--gold); }
+        .logo-title { font-size: 4rem; letter-spacing: 5px; margin: 0; color: var(--gold); text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+        
+        .shipping-banner {
+            background: var(--gold); color: var(--dark);
+            text-align: center; padding: 12px; font-weight: bold;
+            text-transform: uppercase; font-size: 0.9rem;
+        }
+
+        .container { max-width: 1100px; margin: auto; padding: 40px 20px; }
+
+        /* --- GRILLE PRODUITS --- */
+        .product-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px; margin-top: 40px;
+        }
+        .product-card {
+            background: var(--dark-grey); border: 1px solid #333;
+            border-radius: 10px; overflow: hidden; transition: 0.3s;
+        }
+        .product-card:hover { border-color: var(--gold); transform: translateY(-5px); }
+        .product-card img { width: 100%; height: 250px; object-fit: cover; }
+        .product-info { padding: 20px; text-align: center; }
+        .product-info h3 { color: var(--gold); margin: 0 0 10px; }
+        .price { font-size: 1.4rem; font-weight: bold; margin-bottom: 15px; }
+
+        /* --- SECTION INFO (DISCRÉTION & ABOUT) --- */
+        .info-box {
+            background: var(--dark-grey); border: 1px solid var(--gold);
+            padding: 30px; margin: 40px 0; border-radius: 8px;
+        }
+        .info-box h2 { color: var(--gold); margin-top: 0; }
+        .stealth-list { list-style: none; padding: 0; }
+        .stealth-list li { margin-bottom: 10px; padding-left: 30px; position: relative; }
+        .stealth-list li::before { content: '✓'; position: absolute; left: 0; color: var(--gold); font-weight: bold; }
+
+        /* --- BOUTON TELEGRAM --- */
+        .btn-telegram {
+            background: var(--telegram); color: white; padding: 15px 30px;
+            text-decoration: none; border-radius: 5px; font-weight: bold;
+            display: inline-block; transition: 0.3s; border: none; cursor: pointer;
+        }
+        .btn-telegram:hover { opacity: 0.9; transform: translateY(-2px); }
+
+        footer { text-align: center; padding: 40px; font-size: 0.8rem; color: #666; }
+    </style>
+</head>
+<body>
+
+<div id="age-gate">
+    <h2>HOUSE OF BLISS</h2>
+    <p>Vous devez avoir plus de 18 ans pour accéder à ce contenu.</p>
+    <button class="age-btn" onclick="verifyAge()">CLIQUE SI TU AS PLUS DE 18 ANS</button>
+</div>
+
+<div class="top-nav">
+    <span>Expédition depuis les Pays-Bas 🇳🇱</span>
+    <div class="lang-links">
+        <a href="#">ENGLISH</a>
+        <a href="#">DEUTSCH</a>
+        <a href="#">NEDERLANDS</a>
+    </div>
+</div>
+
+<nav class="main-nav">
+    <a href="#shop">Produits</a>
+    <a href="#about">À Propos</a>
+    <a href="#shipping">Livraison</a>
+</nav>
+
+<header>
+    <h1 class="logo-title">HOUSE OF BLISS</h1>
+    <p style="font-style: italic; color: var(--gold-light);">L'excellence hollandaise livrée chez vous.</p>
+</header>
+
+<div class="shipping-banner">
+    🚚 Livraison GRATUITE en Europe à partir de 150€ d'achat
+</div>
+
+<div class="container">
+    
+    <section id="about" style="text-align: center; margin-bottom: 60px;">
+        <h2>Bienvenue dans la Maison du Bonheur</h2>
+        <p style="max-width: 8
+          
