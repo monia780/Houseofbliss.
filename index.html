@@ -11,10 +11,11 @@
             --light: #f5f5f7;
             --border: #e2e2e7;
             --red: #ff3b30;
+            --green: #8cb83e;
         }
 
         * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "Inter", sans-serif; margin: 0; background: #fff; color: var(--dark); }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Inter", sans-serif; margin: 0; background: #fff; color: var(--dark); overflow-x: hidden; }
 
         /* AVERTISSEMENT ÂGE */
         #age-verify {
@@ -38,50 +39,51 @@
         
         .lang-select { 
             display: flex; align-items: center; gap: 8px; border: 1px solid var(--border); 
-            padding: 5px 10px; font-size: 11px; font-weight: 700;
+            padding: 5px 10px; font-size: 11px; font-weight: 700; cursor: pointer;
         }
 
-        /* HERO BANNERS */
-        .hero-banner {
-            height: 250px; background-color: #000; background-size: cover; background-position: center;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            color: #fff; text-align: center; position: relative;
+        /* MENU CATÉGORIES (6 CATEGORIES) */
+        .category-menu { 
+            display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 1px; 
+            background: var(--border); 
+            border-bottom: 1px solid var(--border); 
         }
-        .hero-banner::after { content:''; position: absolute; inset:0; background: rgba(0,0,0,0.4); }
-        .hero-content { z-index: 2; }
-        .hero-banner h2 { font-size: 24px; font-weight: 300; letter-spacing: 5px; text-transform: uppercase; margin: 0; }
-        .shop-now { 
-            margin-top: 20px; display: inline-block; padding: 12px 30px; 
-            background: #fff; color: #000; text-decoration: none; font-size: 10px; font-weight: 700; text-transform: uppercase;
+        .cat-item { 
+            background: #fff; padding: 25px 10px; text-align: center; cursor: pointer; 
+            transition: background 0.3s;
         }
+        .cat-item:hover { background: var(--light); }
+        .cat-item h3 { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin: 0; }
+        .cat-item span { font-size: 8px; color: var(--green); font-weight: 700; margin-top: 4px; display: block; }
 
-        /* MENU CATÉGORIES */
-        .category-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--border); border-bottom: 1px solid var(--border); }
-        .cat-item { background: #fff; padding: 30px 10px; text-align: center; cursor: pointer; text-decoration: none; color: inherit; }
-        .cat-item h3 { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin: 0; }
-        .cat-item span { font-size: 9px; color: #8cb83e; font-weight: 700; margin-top: 5px; display: block; }
-
-        /* PRODUITS */
-        .product-section { padding: 30px 15px; display: none; }
+        /* SECTIONS PRODUITS */
+        .product-section { display: none; padding: 20px 15px 100px; background: #f9f9f9; min-height: 500px; }
         .product-section.active { display: block; }
-        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        .section-header { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; border-left: 3px solid #000; padding-left: 10px; }
+
+        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        .card { background: #fff; border: 1px solid var(--border); padding: 12px; position: relative; text-align: center; }
+        .badge { position: absolute; top: 5px; right: 5px; background: var(--red); color: #fff; font-size: 9px; font-weight: 900; padding: 3px 6px; z-index: 10; }
         
-        .card { background: #fff; border: 1px solid var(--border); padding: 15px; position: relative; text-align: center; }
-        .badge { position: absolute; top: 10px; right: 10px; background: var(--red); color: #fff; font-size: 10px; font-weight: 900; padding: 3px 6px; }
-        .card img { width: 100%; height: 140px; object-fit: contain; margin-bottom: 10px; background: #f9f9f9; }
-        .card-title { font-size: 11px; font-weight: 700; text-transform: uppercase; height: 35px; overflow: hidden; margin-bottom: 10px; }
-        .price { font-size: 14px; font-weight: 700; color: var(--red); }
-        .old-price { color: #999; text-decoration: line-through; font-size: 11px; margin-right: 5px; }
+        /* CADRE PHOTO AVEC IMAGE DE SECOURS */
+        .img-container { width: 100%; height: 120px; background: #f0f0f0; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .img-container img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        
+        .card-title { font-size: 10px; font-weight: 700; text-transform: uppercase; height: 30px; margin-bottom: 8px; line-height: 1.2; }
+        .price { font-size: 13px; font-weight: 700; color: var(--red); }
+        .old-price { color: #999; text-decoration: line-through; font-size: 10px; margin-right: 4px; }
 
         /* BOUTON TELEGRAM FIXE */
         .tg-sticky {
             position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-            background: #26A5E4; color: #fff; padding: 15px 30px; border-radius: 50px;
-            text-decoration: none; font-size: 12px; font-weight: 800; text-transform: uppercase;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2); z-index: 1000; display: flex; align-items: center; gap: 10px;
+            background: #000; color: #fff; padding: 15px 25px; border-radius: 4px;
+            text-decoration: none; font-size: 11px; font-weight: 800; text-transform: uppercase;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3); z-index: 2000; display: flex; align-items: center; gap: 10px; letter-spacing: 1px;
         }
 
-        footer { padding: 80px 20px 100px; text-align: center; font-size: 10px; color: #999; letter-spacing: 1px; }
+        footer { padding: 40px 20px 120px; text-align: center; font-size: 9px; color: #bbb; text-transform: uppercase; letter-spacing: 1px; }
     </style>
 </head>
 <body>
@@ -94,65 +96,114 @@
     <header>
         <a href="#" class="logo">House of Bliss</a>
         <div class="lang-select">
-            <img src="https://flagcdn.com/w20/nl.png" width="18"> NL
+            <img src="https://flagcdn.com/w20/nl.png" width="16"> NL ▾
         </div>
     </header>
 
-    <div class="hero-banner" style="background-image: url('https://www.tatanka.nl/wp-content/uploads/2023/11/tatanka-smartshop-amsterdam.jpg');">
-        <div class="hero-content">
-            <h2>HEALTHSHOP</h2>
-            <a href="javascript:void(0)" onclick="showCat('health')" class="shop-now">SHOP NU ></a>
-        </div>
-    </div>
-
-    <div class="category-grid">
-        <div class="cat-item" onclick="showCat('smart')"><h3>SMARTSHOP</h3><span>25 PRODUCTEN</span></div>
-        <div class="cat-item" onclick="showCat('kratom')"><h3>KRATOM</h3><span>21 PRODUCTEN</span></div>
-        <div class="cat-item" onclick="showCat('health')"><h3>HEALTH</h3><span>45 PRODUCTEN</span></div>
-        <div class="cat-item" onclick="showCat('seeds')"><h3>SEEDSHOP</h3><span>12 PRODUCTEN</span></div>
+    <div class="category-menu">
+        <div class="cat-item" onclick="showCat('smart')"><h3>1. Smartshop</h3><span>TOP 10</span></div>
+        <div class="cat-item" onclick="showCat('seeds')"><h3>2. Seedshop</h3><span>GRAINEN</span></div>
+        <div class="cat-item" onclick="showCat('health')"><h3>3. Healthshop</h3><span>EXTRACTEN</span></div>
+        <div class="cat-item" onclick="showCat('test')"><h3>4. Dépistage</h3><span>EZ-TESTS</span></div>
+        <div class="cat-item" onclick="showCat('cbd')"><h3>5. CBD Shop</h3><span>PREMIUM</span></div>
+        <div class="cat-item" onclick="showCat('sex')"><h3>6. Aphrodisiaques</h3><span>LOVE</span></div>
     </div>
 
     <div id="smart" class="product-section active">
+        <div class="section-header">Smartshop Selection</div>
         <div class="grid">
             <div class="card">
                 <div class="badge">-25%</div>
-                <img src="https://www.tatanka.nl/wp-content/uploads/2018/06/EZ-Test-for-Cocaine-Purity.jpg">
-                <div class="card-title">EZ-Test Cocaine Purity</div>
-                <div class="price"><span class="old-price">8,00 €</span>6,00 €</div>
+                <div class="img-container"><img src="https://www.tatanka.nl/wp-content/uploads/2018/06/Atlantis-Truffles-15g.jpg" alt="Truffles"></div>
+                <div class="card-title">Atlantis Truffles (15g)</div>
+                <div class="price"><span class="old-price">20,00 €</span>15,00 €</div>
             </div>
             <div class="card">
                 <div class="badge">-25%</div>
-                <img src="https://www.tatanka.nl/wp-content/uploads/2013/05/Black-Stone-Spray-for-men.jpg">
+                <div class="img-container"><img src="https://www.tatanka.nl/wp-content/uploads/2018/06/Golden-Teacher-Growkit.jpg" alt="Growkit"></div>
+                <div class="card-title">Golden Teacher Growkit</div>
+                <div class="price"><span class="old-price">45,00 €</span>33,75 €</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="seeds" class="product-section">
+        <div class="section-header">Seedshop Selection</div>
+        <div class="grid">
+            <div class="card">
+                <div class="badge">-25%</div>
+                <div class="img-container"><img src="https://www.tatanka.nl/wp-content/uploads/2018/06/Amnesia-Haze-3seeds.jpg" alt="Seeds"></div>
+                <div class="card-title">Amnesia Haze (3 psc)</div>
+                <div class="price"><span class="old-price">25,00 €</span>18,75 €</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="health" class="product-section">
+        <div class="section-header">Healthshop & Herbal</div>
+        <div class="grid">
+            <div class="card">
+                <div class="badge">-25%</div>
+                <div class="img-container"><img src="https://www.tatanka.nl/wp-content/uploads/2018/06/Kratopia-Red-Bali-Kratom.jpg" alt="Kratom"></div>
+                <div class="card-title">Kratom Red Bali (50g)</div>
+                <div class="price"><span class="old-price">15,00 €</span>11,25 €</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="test" class="product-section">
+        <div class="section-header">Dépistage de drogue</div>
+        <div class="grid">
+            <div class="card">
+                <div class="badge">-25%</div>
+                <div class="img-container"><img src="https://www.tatanka.nl/wp-content/uploads/2018/06/EZ-Test-Cocaine-Purity.jpg" alt="EZ Test"></div>
+                <div class="card-title">EZ-Test Cocaine Purity</div>
+                <div class="price"><span class="old-price">8,00 €</span>6,00 €</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="cbd" class="product-section">
+        <div class="section-header">CBD Shop</div>
+        <div class="grid">
+            <div class="card">
+                <div class="badge">-25%</div>
+                <div class="img-container"><img src="https://www.tatanka.nl/wp-content/uploads/2018/06/CBD-Oil-10.jpg" alt="CBD"></div>
+                <div class="card-title">CBD Oil 10% (10ml)</div>
+                <div class="price"><span class="old-price">40,00 €</span>30,00 €</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="sex" class="product-section">
+        <div class="section-header">Aphrodisiaques</div>
+        <div class="grid">
+            <div class="card">
+                <div class="badge">-25%</div>
+                <div class="img-container"><img src="https://www.tatanka.nl/wp-content/uploads/2013/05/Black-Stone-Spray.jpg" alt="Spray"></div>
                 <div class="card-title">Black Stone Spray</div>
                 <div class="price"><span class="old-price">13,00 €</span>9,75 €</div>
             </div>
         </div>
     </div>
 
-    <div id="kratom" class="product-section">
-        <div class="grid">
-            <div class="card">
-                <div class="badge">-25%</div>
-                <img src="https://www.tatanka.nl/wp-content/uploads/2018/06/Kratopia-Red-Bali-Kratom-600x600.jpg">
-                <div class="card-title">Kratom Red Bali</div>
-                <div class="price"><span class="old-price">14,95 €</span>11,21 €</div>
-            </div>
-        </div>
-    </div>
-
     <footer>
-        <p>HOUSE OF BLISS | AMSTERDAM<br>© 2025 - DISCREET SHIPPING</p>
+        <p>HOUSE OF BLISS | AMSTERDAM<br>© 2025 - DISCREET WORLDWIDE SHIPPING</p>
     </footer>
 
     <a href="https://t.me/Houseofbliss_store" class="tg-sticky">
-        <svg width="20" viewBox="0 0 24 24" fill="#fff"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .24z"/></svg>
-        ORDER VIA TELEGRAM
+        <svg width="18" viewBox="0 0 24 24" fill="#fff"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .24z"/></svg>
+        BESTEL VIA TELEGRAM
     </a>
 
     <script>
         function showCat(id) {
             document.querySelectorAll('.product-section').forEach(s => s.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
+            const target = document.getElementById(id);
+            if(target) {
+                target.classList.add('active');
+                window.scrollTo({ top: document.querySelector('.category-menu').offsetTop - 70, behavior: 'smooth' });
+            }
         }
     </script>
 </body>
