@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>House of Bliss - Smartshop Amsterdam</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --sage-green: #8B9D83;
+            --forest-green: #5A6F54;
+            --cream: #F5F1E8;
+            --beige: #E8DCC4;
+            --earth-brown: #8B7355;
+            --soft-white: #FEFDFB;
+            --deep-green: #3D4F39;
+            --accent-gold: #C9A961;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, var(--cream) 0%, var(--beige) 50%, var(--sage-green) 100%);
+            color: var(--deep-green);
+            overflow-x: hidden;
+        }
+
+        /* Language Selector Styles */
+        .language-selector {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            z-index: 9999;
+        }
+
+        .language-button {
+            background: var(--soft-white);
+            border: 2px solid var(--sage-green);
+            padding: 0.7rem 1.2rem;
+            border-radius: 50px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+            font-size: 0.95rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--forest-green);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .language-button:hover {
+            background: var(--sage-green);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .language-flag {
+            font-size: 1.2rem;
+        }
+
+        .language-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 0.5rem;
+            background: var(--soft-white);
+            border: 2px solid var(--sage-green);
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            min-width: 180px;
+            animation: dropdownSlide 0.3s ease;
+        }
+
+        @keyframes dropdownSlide {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .language-option {
+            padding: 0.9rem 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            color: var(--forest-green);
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid var(--beige);
+        }
+
+        .language-option:last-child {
+            border-bottom: none;
+        }
+
+        .language-option:hover {
+            background: var(--cream);
+            color: var(--deep-green);
+        }
+
+        .language-option.active {
+            background: var(--sage-green);
+            color: white;
+        }
+
+        .age-verification-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(61, 79, 57, 0.98);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            animation: fadeIn 0.6s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .age-verification-card {
+            background: var(--soft-white);
+            padding: 3rem;
+            border-radius: 20px;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .age-verification-card h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            color: var(--forest-green);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .age-verification-card p {
+            color: var(--earth-brown);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .age-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .age-button {
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+        }
+
+        .age-button.yes {
+            background: var(--forest-green);
+            color: white;
+        }
+
+        .age-button.yes:hover {
+            background: var(--deep-green);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(90, 111, 84, 0.3);
+        }
+
+        .age-button.no {
+            background: transparent;
+            color: var(--earth-brown);
+            border: 2px solid var(--beige);
+        }
+
+        .age-button.no:hover {
+            background: var(--beige);
+            border-color: var(--earth-brown);
+        }
+
+        .main-content {
+            opacity: 0;
+            animation: contentFadeIn 1s ease 0.3s forwards;
+        }
+
+        @keyframes contentFadeIn {
+            to { opacity: 1; }
+        }
+
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-background {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 600px;
+            opacity: 0.15;
+            filter: blur(1px);
+            z-index: 0;
+        }
+
+        .hero-background img {
+            width: 100%;
+            height: auto;
+            border-radius: 20px;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 2rem;
+            max-width: 1200px;
+        }
+
+        .logo-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 300;
+            color: var(--forest-green);
+            margin-bottom: 0.5rem;
+            letter-spacing: 2px;
+            animation: titleFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes titleFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .logo-subtitle {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.2rem;
+            color: var(--sage-green);
+            font-weight: 300;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+        }
+
+        .tagline {
+            font-size: 1.1rem;
+            color: var(--earth-brown);
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            line-height: 1.8;
+            font-weight: 300;
+        }
+
+        .legal-notice {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem;
+            border-radius: 15px;
+            border: 2px solid var(--accent-gold);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .legal-notice p {
+            color: var(--deep-green);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .leaf {
+            position: absolute;
+            font-size: 2rem;
+            animation: float 15s infinite ease-in-out;
+            opacity: 0.3;
+        }
+
+        .leaf:nth-child(1) {
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .leaf:nth-child(2) {
+            top: 60%;
+            right: 15%;
+            animation-delay: 3s;
+        }
+
+        .leaf:nth-child(3) {
+            top: 80%;
+            left: 20%;
+            animation-delay: 6s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            25% {
+                transform: translateY(-30px) rotate(5deg);
+            }
+            50% {
+                transform: translateY(0) rotate(0deg);
+            }
+            75% {
+                transform: translateY(30px) rotate(-5deg);
+            }
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 4rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .category-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 2.5rem;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 2px solid transparent;
+            animation: cardSlideUp 0.6s ease-out;
+            animation-fill-mode: both;
+        }
+
+        @keyframes cardSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .category-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(90, 111, 84, 0.2);
+            border-color: var(--sage-green);
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .category-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            animation: iconBounce 2s ease-in-out infinite;
+        }
+
+        @keyframes iconBounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .category-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            color: var(--forest-green);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .category-description {
+            color: var(--earth-brown);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .shop-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.9rem 2rem;
+            background: var(--forest-green);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .shop-button:hover {
+            background: var(--deep-green);
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(90, 111, 84, 0.3);
+        }
+
+        .info-section {
+            padding: 4rem 2rem;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .info-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .info-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3rem;
+            text-align: center;
+            color: var(--forest-green);
+            margin-bottom: 3rem;
+            font-weight: 600;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .info-card {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2rem;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--sage-green);
+        }
+
+        .info-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 30px rgba(90, 111, 84, 0.2);
+            border-left-color: var(--forest-green);
+        }
+
+        .info-card h3 {
+            color: var(--forest-green);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .info-card p {
+            color: var(--earth-brown);
+            line-height: 1.7;
+        }
+
+        .footer {
+            background: var(--deep-green);
+            color: var(--cream);
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .footer h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent-gold);
+        }
+
+        .footer p {
+            margin: 0.5rem 0;
+            opacity: 0.9;
+        }
+
+        .telegram-link {
+            color: var(--accent-gold);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .telegram-link:hover {
+            color: var(--soft-white);
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .language-selector {
+                top: 1rem;
+                right: 1rem;
+            }
+
+            .language-button {
+                padding: 0.5rem 1rem;
+                font-size: 0.85rem;
+            }
+
+            .logo-text {
+                font-size: 2.5rem;
+            }
+
+            .categories-grid {
+                grid-template-columns: 1fr;
+                padding: 2rem 1rem;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .age-verification-card {
+                margin: 1rem;
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        function App() {
+            const [ageVerified, setAgeVerified] = useState(false);
+            const [showContent, setShowContent] = useState(false);
+            const [language, setLanguage] = useState('nl');
+            const [dropdownOpen, setDropdownOpen] = useState(false);
+
+            const translations = {
+                nl: {
+                    welcome: "Welkom",
+                    ageVerificationText: "Deze website bevat informatie over producten die legaal zijn in Nederland.",
+                    ageVerificationText2: "U moet 18 jaar of ouder zijn om door te gaan.",
+                    ageYes: "Ik ben 18 jaar of ouder",
+                    ageNo: "Ik ben minderjarig",
+                    tagline: "Uw vertrouwde bestemming voor natuurlijke en legale producten, discreet geleverd door heel Europa",
+                    legalNotice: "Belangrijk:",
+                    legalNoticeText: "Alle producten zijn legaal in Nederland. Klanten uit andere landen moeten ervoor zorgen dat de producten legaal zijn in hun jurisdictie voordat ze bestellen.",
+                    categorySmartshop: "Zorgvuldig geselecteerde etnobotanische en natuurlijke producten",
+                    categoryShroomshop: "Premium kwaliteit magische paddenstoelen en truffels",
+                    categoryHeadshop: "Accessoires en uitrusting voor een optimale ervaring",
+                    categoryCBD: "Gecertificeerde en geteste CBD oliën, bloemen en producten",
+                    categoryHealthshop: "Natuurlijke supplementen voor uw dagelijks welzijn",
+                    categoryAphrodisiacs: "Natuurlijke producten om uw sensualiteit te stimuleren",
+                    orderButton: "Bestellen",
+                    whyChoose: "Waarom kiezen voor House of Bliss?",
+                    freeShipping: "Gratis Verzending",
+                    freeShippingText: "Geniet van gratis verzending voor alle bestellingen boven €150. Snelle en veilige verzending door heel Europa.",
+                    discretion: "Volledige Discretie",
+                    discretionText: "Neutrale verpakking zonder enige vermelding van onze winkel of inhoud. Uw privacy is onze prioriteit.",
+                    legalProducts: "Legale Producten",
+                    legalProductsText: "Alle producten zijn 100% legaal in Nederland en zorgvuldig geselecteerd op kwaliteit.",
+                    europeanService: "Europese Service",
+                    europeanServiceText: "We leveren door heel Europa met responsieve klantenservice beschikbaar via Telegram.",
+                    premiumQuality: "Premium Kwaliteit",
+                    premiumQualityText: "Natuurlijke en etnobotanische producten van de hoogste kwaliteit, getest en gecertificeerd.",
+                    reactiveSupport: "Responsieve Ondersteuning",
+                    reactiveSupportText: "Ons team is beschikbaar op Telegram om al uw vragen te beantwoorden en u te adviseren.",
+                    footerLocation: "Smartshop Amsterdam, Nederland",
+                    footerShipping: "Gratis verzending vanaf €150 in Europa",
+                    footerOrder: "Om te bestellen:",
+                    footerRights: "Alle rechten voorbehouden.",
+                    footerAge: "Verkoop voorbehouden aan volwassenen (18+)"
+                },
+                fr: {
+                    welcome: "Bienvenue",
+                    ageVerificationText: "Ce site contient des informations sur des produits légaux aux Pays-Bas.",
+                    ageVerificationText2: "Vous devez avoir 18 ans ou plus pour continuer.",
+                    ageYes: "J'ai 18 ans ou plus",
+                    ageNo: "Je suis mineur",
+                    tagline: "Votre destination de confiance pour des produits naturels et légaux, livrés en toute discrétion à travers l'Europe",
+                    legalNotice: "Important:",
+                    legalNoticeText: "Tous nos produits sont légaux aux Pays-Bas. Les clients d'autres pays doivent s'assurer que les produits sont légaux dans leur juridiction avant de commander.",
+                    categorySmartshop: "Produits ethnobotaniques et naturels soigneusement sélectionnés",
+                    categoryShroomshop: "Champignons et truffes magiques de qualité premium",
+                    categoryHeadshop: "Accessoires et équipements pour une expérience optimale",
+                    categoryCBD: "Huiles, fleurs et produits CBD certifiés et testés",
+                    categoryHealthshop: "Compléments naturels pour votre bien-être quotidien",
+                    categoryAphrodisiacs: "Produits naturels pour stimuler votre sensualité",
+                    orderButton: "Commander",
+                    whyChoose: "Pourquoi choisir House of Bliss ?",
+                    freeShipping: "Livraison Gratuite",
+                    freeShippingText: "Profitez de la livraison gratuite pour toute commande supérieure à 150€. Expédition rapide et sécurisée dans toute l'Europe.",
+                    discretion: "Discrétion Totale",
+                    discretionText: "Emballage neutre sans aucune mention de notre boutique ou du contenu. Votre vie privée est notre priorité.",
+                    legalProducts: "Produits Légaux",
+                    legalProductsText: "Tous nos produits sont 100% légaux aux Pays-Bas et soigneusement sélectionnés pour leur qualité.",
+                    europeanService: "Service Européen",
+                    europeanServiceText: "Nous livrons dans toute l'Europe avec un service client réactif disponible via Telegram.",
+                    premiumQuality: "Qualité Premium",
+                    premiumQualityText: "Produits naturels et ethnobotaniques de la plus haute qualité, testés et certifiés.",
+                    reactiveSupport: "Support Réactif",
+                    reactiveSupportText: "Notre équipe est disponible sur Telegram pour répondre à toutes vos questions et vous conseiller.",
+                    footerLocation: "Smartshop Amsterdam, Pays-Bas",
+                    footerShipping: "Livraison gratuite à partir de 150€ en Europe",
+                    footerOrder: "Pour commander :",
+                    footerRights: "Tous droits réservés.",
+                    footerAge: "Vente réservée aux personnes majeures (18+)"
+                },
+                en: {
+                    welcome: "Welcome",
+                    ageVerificationText: "This website contains information about products that are legal in the Netherlands.",
+                    ageVerificationText2: "You must be 18 years or older to continue.",
+                    ageYes: "I am 18 years or older",
+                    ageNo: "I am a minor",
+                    tagline: "Your trusted destination for natural and legal products, discreetly delivered throughout Europe",
+                    legalNotice: "Important:",
+                    legalNoticeText: "All our products are legal in the Netherlands. Customers from other countries must ensure that the products are legal in their jurisdiction before ordering.",
+                    categorySmartshop: "Carefully selected ethnobotanical and natural products",
+                    categoryShroomshop: "Premium quality magic mushrooms and truffles",
+                    categoryHeadshop: "Accessories and equipment for an optimal experience",
+                    categoryCBD: "Certified and tested CBD oils, flowers, and products",
+                    categoryHealthshop: "Natural supplements for your daily wellness",
+                    categoryAphrodisiacs: "Natural products to stimulate your sensuality",
+                    orderButton: "Order",
+                    whyChoose: "Why choose House of Bliss?",
+                    freeShipping: "Free Shipping",
+                    freeShippingText: "Enjoy free shipping on all orders over €150. Fast and secure shipping throughout Europe.",
+                    discretion: "Complete Discretion",
+                    discretionText: "Neutral packaging without any mention of our store or contents. Your privacy is our priority.",
+                    legalProducts: "Legal Products",
+                    legalProductsText: "All our products are 100% legal in the Netherlands and carefully selected for quality.",
+                    europeanService: "European Service",
+                    europeanServiceText: "We deliver throughout Europe with responsive customer service available via Telegram.",
+                    premiumQuality: "Premium Quality",
+                    premiumQualityText: "Natural and ethnobotanical products of the highest quality, tested and certified.",
+                    reactiveSupport: "Responsive Support",
+                    reactiveSupportText: "Our team is available on Telegram to answer all your questions and advise you.",
+                    footerLocation: "Smartshop Amsterdam, Netherlands",
+                    footerShipping: "Free shipping from €150 in Europe",
+                    footerOrder: "To order:",
+                    footerRights: "All rights reserved.",
+                    footerAge: "Sales reserved for adults (18+)"
+                }
+            };
+
+            const languages = [
+                { code: 'nl', flag: '🇳🇱', name: 'Nederlands' },
+                { code: 'fr', flag: '🇫🇷', name: 'Français' },
+                { code: 'en', flag: '🇬🇧', name: 'English' }
+            ];
+
+            useEffect(() => {
+                const verified = localStorage.getItem('ageVerified');
+                const savedLanguage = localStorage.getItem('language');
+                
+                if (verified === 'true') {
+                    setAgeVerified(true);
+                    setShowContent(true);
+                }
+                
+                if (savedLanguage) {
+                    setLanguage(savedLanguage);
+                } else {
+                    setLanguage('nl'); // Default to Dutch
+                }
+            }, []);
+
+            const handleAgeVerification = (isOfAge) => {
+                if (isOfAge) {
+                    localStorage.setItem('ageVerified', 'true');
+                    setAgeVerified(true);
+                    setTimeout(() => {
+                        setShowContent(true);
+                    }, 500);
+                } else {
+                    window.location.href = 'https://www.google.com';
+                }
+            };
+
+            const handleLanguageChange = (langCode) => {
+                setLanguage(langCode);
+                localStorage.setItem('language', langCode);
+                setDropdownOpen(false);
+            };
+
+            const currentLanguage = languages.find(lang => lang.code === language);
+            const t = translations[language];
+
+            const categories = [
+                {
+                    icon: "🌿",
+                    title: "Smartshop",
+                    description: t.categorySmartshop
+                },
+                {
+                    icon: "🍄",
+                    title: "Shroomshop",
+                    description: t.categoryShroomshop
+                },
+                {
+                    icon: "💨",
+                    title: "Headshop",
+                    description: t.categoryHeadshop
+                },
+                {
+                    icon: "🌱",
+                    title: "CBD Shop",
+                    description: t.categoryCBD
+                },
+                {
+                    icon: "🧘",
+                    title: "Healthshop",
+                    description: t.categoryHealthshop
+                },
+                {
+                    icon: "💗",
+                    title: "Aphrodisiacs",
+                    description: t.categoryAphrodisiacs
+                }
+            ];
+
+            return (
+                <>
+                    {!ageVerified && (
+                        <div className="age-verification-overlay">
+                            <div className="age-verification-card">
+                                <h2>{t.welcome}</h2>
+                                <p>
+                                    {t.ageVerificationText}
+                                    <br/><br/>
+                                    {t.ageVerificationText2}
+                                </p>
+                                <div className="age-buttons">
+                                    <button 
+                                        className="age-button yes" 
+                                        onClick={() => handleAgeVerification(true)}
+                                    >
+                                        {t.ageYes}
+                                    </button>
+                                    <button 
+                                        className="age-button no" 
+                                        onClick={() => handleAgeVerification(false)}
+                                    >
+                                        {t.ageNo}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {showContent && (
+                        <>
+                            <div className="language-selector">
+                                <button 
+                                    className="language-button"
+                                    onClick={() => setDropdownOpen(!dropdownOpen)}
+                                >
+                                    <span className="language-flag">{currentLanguage.flag}</span>
+                                    <span>{currentLanguage.name}</span>
+                                    <span>{dropdownOpen ? '▲' : '▼'}</span>
+                                </button>
+                                {dropdownOpen && (
+                                    <div className="language-dropdown">
+                                        {languages.map(lang => (
+                                            <div
+                                                key={lang.code}
+                                                className={`language-option ${language === lang.code ? 'active' : ''}`}
+                                                onClick={() => handleLanguageChange(lang.code)}
+                                            >
+                                                <span className="language-flag">{lang.flag}</span>
+                                                <span>{lang.name}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+
+                            <div className="main-content">
+                                <div className="floating-elements">
+                                    <div className="leaf">🍃</div>
+                                    <div className="leaf">🌿</div>
+                                    <div className="leaf">🍂</div>
+                                </div>
+
+                                <section className="hero-section">
+                                    <div className="hero-background">
+                                        <img src="/mnt/user-data/uploads/1766758601016.jpg" alt="House of Bliss" />
+                                    </div>
+                                    <div className="hero-content">
+                                        <h1 className="logo-text">House of Bliss</h1>
+                                        <p className="logo-subtitle">Amsterdam</p>
+                                        <p className="tagline">
+                                            {t.tagline}
+                                        </p>
+                                        <div className="legal-notice">
+                                            <p>
+                                                ⚠️ <strong>{t.legalNotice}</strong> {t.legalNoticeText}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <section className="categories-grid">
+                                    {categories.map((category, index) => (
+                                        <div 
+                                            key={index} 
+                                            className="category-card"
+                                            style={{ animationDelay: `${index * 0.1}s` }}
+                                        >
+                                            <div className="category-icon">{category.icon}</div>
+                                            <h3 className="category-title">{category.title}</h3>
+                                            <p className="category-description">{category.description}</p>
+                                            <a 
+                                                href="https://t.me/Houseofbliss_store" 
+                                                target="_blank" 
+                                                rel="noopener noreferrer"
+                                                className="shop-button"
+                                            >
+                                                <span>{t.orderButton}</span>
+                                                <span>→</span>
+                                            </a>
+                                        </div>
+                                    ))}
+                                </section>
+
+                                <section className="info-section">
+                                    <div className="info-container">
+                                        <h2 className="info-title">{t.whyChoose}</h2>
+                                        <div className="info-grid">
+                                            <div className="info-card">
+                                                <h3>🚚 {t.freeShipping}</h3>
+                                                <p>{t.freeShippingText}</p>
+                                            </div>
+                                            <div className="info-card">
+                                                <h3>🔒 {t.discretion}</h3>
+                                                <p>{t.discretionText}</p>
+                                            </div>
+                                            <div className="info-card">
+                                                <h3>✅ {t.legalProducts}</h3>
+                                                <p>{t.legalProductsText}</p>
+                                            </div>
+                                            <div className="info-card">
+                                                <h3>🌍 {t.europeanService}</h3>
+                                                <p>{t.europeanServiceText}</p>
+                                            </div>
+                                            <div className="info-card">
+                                                <h3>🌿 {t.premiumQuality}</h3>
+                                                <p>{t.premiumQualityText}</p>
+                                            </div>
+                                            <div className="info-card">
+                                                <h3>💬 {t.reactiveSupport}</h3>
+                                                <p>{t.reactiveSupportText}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <footer className="footer">
+                                    <div className="footer-content">
+                                        <h3>House of Bliss</h3>
+                                        <p>{t.footerLocation}</p>
+                                        <p>{t.footerShipping}</p>
+                                        <p style={{ marginTop: '1.5rem' }}>
+                                            {t.footerOrder} <a href="https://t.me/Houseofbliss_store" target="_blank" rel="noopener noreferrer" className="telegram-link">@Houseofbliss_store</a>
+                                        </p>
+                                        <p style={{ marginTop: '2rem', fontSize: '0.85rem', opacity: '0.7' }}>
+                                            © 2024 House of Bliss. {t.footerRights}
+                                            <br/>
+                                            {t.footerAge}
+                                        </p>
+                                    </div>
+                                </footer>
+                            </div>
+                        </>
+                    )}
+                </>
+            );
+        }
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>
