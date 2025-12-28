@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>House of Bliss - Smartshop Amsterdam</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorantᦪ觝:wght@300;400;600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <title>House of Bliss - Smartshop Dordrecht</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -80,6 +80,8 @@
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
             overflow: hidden;
             min-width: 180px;
+            max-height: 400px;
+            overflow-y: auto;
             animation: dropdownSlide 0.3s ease;
         }
 
@@ -567,64 +569,62 @@
     <script type="text/babel">
         const { useState, useEffect } = React;
 
-        function App() {
-            const [ageVerified, setAgeVerified] = useState(false);
-            const [showContent, setShowContent] = useState(false);
-            const [language, setLanguage] = useState('nl');
-            const [dropdownOpen, setDropdownOpen] = useState(false);
-
-            const translations = {
-                nl: {
-                    welcome: "Welkom",
-                    ageVerificationText: "Deze website bevat informatie over producten die legaal zijn in Nederland.",
-                    ageVerificationText2: "U moet 18 jaar of ouder zijn om door te gaan.",
-                    ageYes: "Ik ben 18 jaar of ouder",
-                    ageNo: "Ik ben minderjarig",
-                    tagline: "Uw vertrouwde bestemming voor natuurlijke en legale producten, discreet geleverd door heel Europa",
-                    legalNotice: "Belangrijk:",
-                    legalNoticeText: "Alle producten zijn legaal in Nederland. Klanten uit andere landen moeten ervoor zorgen dat de producten legaal zijn in hun jurisdictie voordat ze bestellen.",
-                    categorySmartshop: "Zorgvuldig geselecteerde etnobotanische en natuurlijke producten",
-                    categoryShroomshop: "Premium kwaliteit magische paddenstoelen en truffels",
-                    categoryHeadshop: "Accessoires en uitrusting voor een optimale ervaring",
-                    categoryCBD: "Gecertificeerde en geteste CBD olin, bloemen en producten",
-                    categoryHealthshop: "Natuurlijke supplementen voor uw dagelijks welzijn",
-                    categoryAphrodisiacs: "Natuurlijke producten om uw sensualiteit te stimuleren",
-                    orderButton: "Bestellen",
-                    whyChoose: "Waarom kiezen voor House of Bliss?",
-                    freeShipping: "Gratis Verzending",
-                    freeShippingText: "Geniet van gratis verzending voor alle bestellingen boven 150. Snelle en veilige verzending door heel Europa.",
-                    discretion: "Volledige Discretie",
-                    discretionText: "Neutrale verpakking zonder enige vermelding van onze winkel of inhoud. Uw privacy is onze prioriteit.",
-                    legalProducts: "Legale Producten",
-                    legalProductsText: "Alle producten zijn 100% legaal in Nederland en zorgvuldig geselecteerd op kwaliteit.",
-                    europeanService: "Europese Service",
-                    europeanServiceText: "We leveren door heel Europa met responsieve klantenservice beschikbaar via Telegram.",
-                    premiumQuality: "Premium Kwaliteit",
-                    premiumQualityText: "Natuurlijke en etnobotanische producten van de hoogste kwaliteit, getest en gecertificeerd.",
-                    reactiveSupport: "Responsieve Ondersteuning",
-                    reactiveSupportText: "Ons team is beschikbaar op Telegram om al uw vragen te beantwoorden en u te adviseren.",
-                    footerLocation: "Smartshop Amsterdam, Nederland",
-                    footerShipping: "Gratis verzending vanaf 150 in Europa",
-                    footerOrder: "Om te bestellen:",
-                    footerRights: "Alle rechten voorbehouden.",
-                    footerAge: "Verkoop voorbehouden aan volwassenen (18)"
-                },
-                fr: {
-                    welcome: "Bienvenue",
-                    ageVerificationText: "Ce site contient des informations sur des produits lgaux aux Pays-Bas.",
-                    ageVerificationText2: "Vous devez avoir 18 ans ou plus pour continuer.",
-                    ageYes: "J'ai 18 ans ou plus",
-                    ageNo: "Je suis mineur",
-                    tagline: "Votre destination de confiance pour des produits naturels et lgaux, livrs en toute discrtion  travers l'Europe",
-                    legalNotice: "Important:",
-                    legalNoticeText: "Tous nos produits sont lgaux aux Pays-Bas. Les clients d'autres pays doivent s'assurer que les produits sont lgaux dans leur juridiction avant de commander.",
-                    categorySmartshop: "Produits ethnobotaniques et naturels soigneusement slectionns",
-                    categoryShroomshop: "Champignons et truffes magiques de qualit premium",
-                    categoryHeadshop: "Accessoires et quipements pour une exprience optimale",
-                    categoryCBD: "Huiles, fleurs et produits CBD certifis et tests",
-                    categoryHealthshop: "Complments naturels pour votre bien-tre quotidien",
-                    categoryAphrodisiacs: "Produits naturels pour stimuler votre sensualit",
-                    orderButton: "Commander",
-                    whyChoose: "Pourquoi choisir House of Bliss ?",
-                    freeShipping: "Livraison Gratuite",
-                    freeShippingText: "Profitez de la livraison
+        const translations = {
+            nl: {
+                welcome: "Welkom",
+                ageVerificationText: "Deze website bevat informatie over producten die legaal zijn in Nederland.",
+                ageVerificationText2: "U moet 18 jaar of ouder zijn om door te gaan.",
+                ageYes: "Ik ben 18 jaar of ouder",
+                ageNo: "Ik ben minderjarig",
+                tagline: "Uw vertrouwde bestemming voor natuurlijke en legale producten, discreet geleverd door heel Europa",
+                legalNotice: "Belangrijk:",
+                legalNoticeText: "Alle producten zijn legaal in Nederland. Klanten uit andere landen moeten ervoor zorgen dat de producten legaal zijn in hun jurisdictie voordat ze bestellen.",
+                categorySmartshop: "Zorgvuldig geselecteerde etnobotanische en natuurlijke producten",
+                categoryShroomshop: "Premium kwaliteit magische paddenstoelen en truffels",
+                categoryHeadshop: "Accessoires en uitrusting voor een optimale ervaring",
+                categoryCBD: "Gecertificeerde en geteste CBD oliën, bloemen en producten",
+                categoryHealthshop: "Natuurlijke supplementen voor uw dagelijks welzijn",
+                categoryAphrodisiacs: "Natuurlijke producten om uw sensualiteit te stimuleren",
+                orderButton: "Bestellen",
+                whyChoose: "Waarom kiezen voor House of Bliss?",
+                freeShipping: "Gratis Verzending",
+                freeShippingText: "Geniet van gratis verzending voor alle bestellingen boven €150. Snelle en veilige verzending door heel Europa.",
+                discretion: "Volledige Discretie",
+                discretionText: "Neutrale verpakking zonder enige vermelding van onze winkel of inhoud. Uw privacy is onze prioriteit.",
+                legalProducts: "Legale Producten",
+                legalProductsText: "Alle producten zijn 100% legaal in Nederland en zorgvuldig geselecteerd op kwaliteit.",
+                europeanService: "Europese Service",
+                europeanServiceText: "We leveren door heel Europa met responsieve klantenservice beschikbaar via Telegram.",
+                premiumQuality: "Premium Kwaliteit",
+                premiumQualityText: "Natuurlijke en etnobotanische producten van de hoogste kwaliteit, getest en gecertificeerd.",
+                reactiveSupport: "Responsieve Ondersteuning",
+                reactiveSupportText: "Ons team is beschikbaar op Telegram om al uw vragen te beantwoorden en u te adviseren.",
+                footerLocation: "Smartshop Dordrecht, Nederland",
+                footerShipping: "Gratis verzending vanaf €150 in Europa",
+                footerOrder: "Om te bestellen:",
+                footerRights: "Alle rechten voorbehouden.",
+                footerAge: "Verkoop voorbehouden aan volwassenen (18+)"
+            },
+            fr: {
+                welcome: "Bienvenue",
+                ageVerificationText: "Ce site contient des informations sur des produits légaux aux Pays-Bas.",
+                ageVerificationText2: "Vous devez avoir 18 ans ou plus pour continuer.",
+                ageYes: "J'ai 18 ans ou plus",
+                ageNo: "Je suis mineur",
+                tagline: "Votre destination de confiance pour des produits naturels et légaux, livrés en toute discrétion à travers l'Europe",
+                legalNotice: "Important:",
+                legalNoticeText: "Tous nos produits sont légaux aux Pays-Bas. Les clients d'autres pays doivent s'assurer que les produits sont légaux dans leur juridiction avant de commander.",
+                categorySmartshop: "Produits ethnobotaniques et naturels soigneusement sélectionnés",
+                categoryShroomshop: "Champignons et truffes magiques de qualité premium",
+                categoryHeadshop: "Accessoires et équipements pour une expérience optimale",
+                categoryCBD: "Huiles, fleurs et produits CBD certifiés et testés",
+                categoryHealthshop: "Compléments naturels pour votre bien-être quotidien",
+                categoryAphrodisiacs: "Produits naturels pour stimuler votre sensualité",
+                orderButton: "Commander",
+                whyChoose: "Pourquoi choisir House of Bliss ?",
+                freeShipping: "Livraison Gratuite",
+                freeShippingText: "Profitez de la livraison gratuite pour toute commande supérieure à 150€. Expédition rapide et sécurisée dans toute l'Europe.",
+                discretion: "Discrétion Totale",
+                discretionText: "Emballage neutre sans aucune mention de notre boutique ou du contenu. Votre vie privée est notre priorité.",
+                legalProducts: "Produits Légaux",
+                legalProductsText: "Tous nos produits sont 100% légaux aux P
