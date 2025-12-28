@@ -5,136 +5,131 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>House of Bliss - Official Store</title>
     <style>
-        /* Design Global */
-        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; background-color: #f9fbf9; color: #333; }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background-color: #f9fbf9; }
+
+        /* ÉCRAN DE VÉRIFICATION - Bloque tout */
+        #age-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #1b4332;
+            display: flex; align-items: center; justify-content: center;
+            z-index: 10000; /* Toujours au dessus */
+            transition: opacity 0.5s ease;
+        }
+
+        .age-card {
+            background: #244d3a;
+            padding: 40px 20px;
+            border-radius: 20px;
+            text-align: center;
+            color: white;
+            width: 85%;
+            max-width: 400px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .btn-confirm {
+            background-color: #40916c;
+            color: white;
+            border: none;
+            padding: 20px;
+            width: 100%;
+            border-radius: 50px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        /* CONTENU DU SITE */
+        #site-content {
+            visibility: hidden; /* Caché tant qu'on n'a pas cliqué */
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Quand on a vérifié l'âge */
+        .verified #age-overlay { display: none !important; }
+        .verified #site-content { visibility: visible; height: auto; overflow: auto; }
+
+        /* DESIGN DES CATÉGORIES (Comme ta capture) */
+        header { background: #1b4332; color: white; text-align: center; padding: 30px 10px; }
+        .info-bar { background: #d8f3dc; text-align: center; padding: 10px; font-size: 0.8em; font-weight: bold; }
         
-        /* Overlay Vérification d'âge - FIXE */
-        #age-verify {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #1b4332; color: white; display: flex; align-items: center;
-            justify-content: center; z-index: 9999; text-align: center;
-        }
-        .age-box { 
-            padding: 40px; 
-            background: #244d3a; 
-            border-radius: 25px; 
-            border: 1px solid rgba(255,255,255,0.1); 
-            margin: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-        .btn-age { 
-            background: #40916c; color: white; border: none; padding: 18px 35px; 
-            border-radius: 40px; cursor: pointer; font-size: 1.2em; font-weight: bold; 
-            margin-top: 25px; transition: 0.3s;
-        }
-        .btn-age:hover { background: #52b788; transform: scale(1.05); }
+        .store-photo { width: 100%; max-width: 500px; margin: 20px auto; display: block; border-radius: 10px; border: 2px solid #1b4332; }
 
-        /* Contenu Principal (caché au début) */
-        #main-content { display: none; }
+        .container { padding: 15px; max-width: 500px; margin: auto; }
 
-        header { background-color: #1b4332; color: white; padding: 40px 20px; text-align: center; position: relative; }
+        .cat-box {
+            height: 150px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-transform: uppercase;
+            font-weight: bold;
+            font-size: 1.5em;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .btn-buy {
+            background: black;
+            color: white;
+            text-decoration: none;
+            padding: 10px 25px;
+            border-radius: 5px;
+            font-size: 0.6em;
+            margin-top: 10px;
+        }
+
+        /* Couleurs Catégories */
+        .c1 { background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://via.placeholder.com/500x150?text=SMARTSHOP') #1b4332; background-size: cover; }
+        .c2 { background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://via.placeholder.com/500x150?text=SHROOMSHOP') #2d6a4f; background-size: cover; }
+        .c3 { background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://via.placeholder.com/500x150?text=HEADSHOP') #40916c; background-size: cover; }
+        .c4 { background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://via.placeholder.com/500x150?text=CBDSHOP') #52b788; background-size: cover; }
         
-        .language-selector { position: absolute; top: 15px; right: 15px; }
-        .language-selector select { padding: 8px; border-radius: 5px; background: #40916c; color: white; border: 1px solid #74c69d; }
-
-        .info-bar { background-color: #d8f3dc; color: #1b4332; text-align: center; padding: 12px; font-size: 0.85em; font-weight: bold; }
-
-        /* Photo Boutique */
-        .store-front { width: 100%; max-width: 600px; margin: 20px auto; text-align: center; padding: 0 15px; box-sizing: border-box; }
-        .store-front img { width: 100%; border-radius: 15px; border: 3px solid #1b4332; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
-
-        /* Catégories style Capture */
-        .container { padding: 20px; max-width: 600px; margin: auto; }
-        .category-card {
-            position: relative; width: 100%; height: 160px; margin-bottom: 20px;
-            border-radius: 15px; display: flex; flex-direction: column;
-            align-items: center; justify-content: center; overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        .category-title { color: white; font-size: 1.8em; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; text-shadow: 2px 2px 4px rgba(0,0,0,0.4); }
-        
-        .btn-shop {
-            background-color: black; color: white; padding: 12px 30px;
-            border-radius: 8px; text-decoration: none; font-weight: bold;
-            font-size: 1em; display: flex; align-items: center;
-        }
-        .btn-shop::after { content: ' >'; margin-left: 10px; color: #74c69d; }
-
-        /* Gradients Couleurs */
-        .bg-smart { background: linear-gradient(135deg, #1b4332, #40916c); }
-        .bg-shroom { background: linear-gradient(135deg, #2d6a4f, #1b4332); }
-        .bg-head { background: linear-gradient(135deg, #40916c, #74c69d); }
-        .bg-seed { background: linear-gradient(135deg, #1b4332, #2d6a4f); }
-        .bg-health { background: linear-gradient(135deg, #52b788, #2d6a4f); }
-        .bg-aphro { background: linear-gradient(135deg, #081c15, #2d6a4f); }
-
-        footer { background: #1b4332; color: white; text-align: center; padding: 30px 20px; }
     </style>
 </head>
 <body>
 
-    <div id="age-verify">
-        <div class="age-box">
-            <h1 style="margin:0;">House of Bliss 🌿</h1>
-            <p id="age-text" style="margin-top:20px;">Bevestig dat u 18 jaar of ouder bent om toegang te krijgen.</p>
-            <button class="btn-age" id="age-button" onclick="unlockSite()">Ik ben 18 jaar of ouder</button>
+    <div id="age-overlay">
+        <div class="age-card">
+            <h1>House of Bliss 🌿</h1>
+            <p>Bevestig dat u 18 jaar of ouder bent om toegang te krijgen.</p>
+            <button class="btn-confirm" onclick="doVerify()">Ik ben 18 jaar of ouder</button>
         </div>
     </div>
 
-    <div id="main-content">
+    <div id="site-content">
         <header>
-            <div class="language-selector">
-                <select id="langSelect" onchange="updateLanguage()">
-                    <option value="nl">NL 🇳🇱</option>
-                    <option value="fr">FR 🇫🇷</option>
-                    <option value="en">EN 🇬🇧</option>
-                </select>
-            </div>
             <h1>House of Bliss</h1>
-            <p id="tagline">Premium Botanicals & Wellness</p>
+            <p>Premium Botanicals & Wellness</p>
         </header>
 
-        <div class="info-bar" id="promo">🚚 Gratis verzending vanaf €150 | 📦 100% Discrete levering</div>
+        <div class="info-bar">🚚 Gratis verzending vanaf €150 | 📦 Discrete levering</div>
 
-        <div class="store-front">
-            <p style="font-weight:bold; color:#1b4332;" id="visit">Bezoek onze winkel!</p>
-            <img src="https://i.imgur.com/votre_image.jpg" alt="House of Bliss Store">
-        </div>
+        <img src="https://votre-image-boutique.jpg" class="store-photo" alt="Shop House of Bliss">
 
         <div class="container">
-            <div class="category-card bg-smart"><div class="category-title">Smartshop</div><a href="https://t.me/Houseofbliss_store" class="btn-shop shop-text">Nu winkelen</a></div>
-            <div class="category-card bg-shroom"><div class="category-title">Shroomshop</div><a href="https://t.me/Houseofbliss_store" class="btn-shop shop-text">Nu winkelen</a></div>
-            <div class="category-card bg-head"><div class="category-title">Headshop</div><a href="https://t.me/Houseofbliss_store" class="btn-shop shop-text">Nu winkelen</a></div>
-            <div class="category-card bg-seed"><div class="category-title">Seedshop</div><a href="https://t.me/Houseofbliss_store" class="btn-shop shop-text">Nu winkelen</a></div>
-            <div class="category-card bg-health"><div class="category-title">Healthshop</div><a href="https://t.me/Houseofbliss_store" class="btn-shop shop-text">Nu winkelen</a></div>
-            <div class="category-card bg-aphro"><div class="category-title">Aphrodisiacs</div><a href="https://t.me/Houseofbliss_store" class="btn-shop shop-text">Nu winkelen</a></div>
+            <div class="cat-box c1">Smartshop <a href="https://t.me/Houseofbliss_store" class="btn-buy">Nu winkelen ></a></div>
+            <div class="cat-box c2">Shroomshop <a href="https://t.me/Houseofbliss_store" class="btn-buy">Nu winkelen ></a></div>
+            <div class="cat-box c3">Headshop <a href="https://t.me/Houseofbliss_store" class="btn-buy">Nu winkelen ></a></div>
+            <div class="cat-box c4">CBD Shop <a href="https://t.me/Houseofbliss_store" class="btn-buy">Nu winkelen ></a></div>
         </div>
-
-        <footer>
-            <p>&copy; 2025 House of Bliss</p>
-            <span id="discreet" style="font-size:0.8em; color:#b7e4c7;">Anonieme verzending & discrete verpakking.</span>
-        </footer>
     </div>
 
     <script>
-        function unlockSite() {
-            document.getElementById('age-verify').style.display = 'none';
-            document.getElementById('main-content').style.display = 'block';
+        function doVerify() {
+            // Ajoute la classe 'verified' au corps de la page
+            document.body.classList.add('verified');
+            // Force le défilement vers le haut
             window.scrollTo(0, 0);
         }
-
-        const translations = {
-            nl: { ageBtn: "Ik ben 18 jaar of ouder", shop: "Nu winkelen", visit: "Bezoek onze winkel!" },
-            fr: { ageBtn: "J'ai 18 ans ou plus", shop: "Acheter maintenant", visit: "Visitez notre boutique !" },
-            en: { ageBtn: "I am 18 or older", shop: "Shop now", visit: "Visit our shop!" }
-        };
-
-        function updateLanguage() {
-            const l = document.getElementById('langSelect').value;
-            document.getElementById('age-button').innerText = translations[l].ageBtn;
-            document.getElementById('visit').innerText = translations[l].visit;
-            document.querySelectorAll('.shop-text').forEach(b => b.innerText = translations[l].shop);
-        }
     </script>
+
 </body>
 </html>
